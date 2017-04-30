@@ -5,15 +5,36 @@ $(document).ready(function() {
 
     const output = $("#container");
 
-    const writeToDom = () => {
+
+    $("button").click((event) => {
+        let team_id = event.target.id;
+        console.log($(event.currentTarget));
+        loadChar(team_id).then((results) => {
+            // writeToDom(data.characters);
+        }).catch((error) => {
+            console.log(myCharacters);
+        });
+    });
+
+    // const getXmen = () => {
+    //     for (let i = 0; i < myCharacters.length; i++) {
+    //         if(myCharacters[i].team_id === 0) {
+    //             xmen.push(myCharacters[i]);
+    //         }
+    //     }
+    //     writeToDom(xmen);
+    // };
+
+    const writeToDom = (results) => {
         let domString = "";
-        for (let i = 0; i < myCharacters.length; i++) {
+        for (let i = 0; i < results.myCharacters.length; i++) {
             domString += `<div class="col-md-6 col-md-4">`;
 			domString += `<div class="thumbnail">`;
-			domString += `<h1>${myCharacters[i].name}</h1>`;
+			domString += `<h1>${results.myCharacters[i].image}</h1>`;
+            domString += `<p>Hello</p>`;
 			domString += `</div></div>`;
         }
-        output.append(domString);
+        $("#container").append(domString);
     };
 
 
@@ -62,7 +83,6 @@ $(document).ready(function() {
 	                    myCharacters.push(villan);
 	                });
 	            });
-	            writeToDom();
 	            console.log("myCharacters", myCharacters);
 	        });
     
