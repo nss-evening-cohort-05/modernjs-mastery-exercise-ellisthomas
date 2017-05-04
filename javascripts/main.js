@@ -1,38 +1,42 @@
 $(document).ready(function() {
 
     let myCharacters = [];
+    let printChar = "";
 
 
     const output = $("#container");
 
 
-    $("button").click((event) => {
-        let team_id = event.target.id;
+    $(".btn").click((event) => {
+        $("#background").hide();
+        printChar = ($(event.currentTarget).attr("id"));
         console.log($(event.currentTarget));
-        loadChar(team_id).then((results) => {
-            // writeToDom(data.characters);
-        }).catch((error) => {
-            console.log(myCharacters);
-        });
+        // loadChar(team_id).then((results) => {
+        //     // writeToDom(data.characters);
+        // }).catch((error) => {
+        //     console.log(myCharacters);
+        // });
+        writeToDom();
+        dataGetter();
     });
-
-    // const getXmen = () => {
-    //     for (let i = 0; i < myCharacters.length; i++) {
-    //         if(myCharacters[i].team_id === 0) {
-    //             xmen.push(myCharacters[i]);
-    //         }
-    //     }
-    //     writeToDom(xmen);
-    // };
 
     const writeToDom = (results) => {
         let domString = "";
-        for (let i = 0; i < results.myCharacters.length; i++) {
-            domString += `<div class="col-md-6 col-md-4">`;
-			domString += `<div class="thumbnail">`;
-			domString += `<h1>${results.myCharacters[i].image}</h1>`;
-            domString += `<p>Hello</p>`;
-			domString += `</div></div>`;
+        for (let i = 0; i < myCharacters.length; i++) {
+            domString += `<div class="col-md-3">`;
+			domString += `<p class="name">${myCharacters[i].name}</p>`;
+            if (myCharacters[i].gender_id === 0) {
+                domString += `<img class="male" src="${myCharacters[i].image}">`;
+            } else if (myCharacters[i].gender_id === 1) {
+                domString += `<img class="female" src="${myCharacters[i].image}">`;
+            }
+            if (myCharacters[i].gender_id === 0 && myCharacters[i].description === "") {
+                domString += `<p class="description">abcde fghij klmno pqrst uvwxy z</p>`;
+            } else if (myCharacters[i].gender_id === 1 && myCharacters[i].description === "") {
+                domString += `<p class="f-description">1234567890</p>`;
+            }
+			domString += `<p>${myCharacters[i].description}</p>`;
+			domString += `</div>`;
         }
         $("#container").append(domString);
     };
@@ -63,30 +67,40 @@ $(document).ready(function() {
     };
 
 
-    $("button").click(function(dataGetter) {
-        $("#background").hide();
+    // $("button").click(function(dataGetter) {
+    //     $("#background").hide();
 
 
 
     // $("button").click((event) => {
     //     console.log($(event.currentTarget));
     // });
+    const teamChecker = (characters, teams, printChar) => {
+        for (let i = 0; i < characters.length; i++) {
+            for (let j = 0; j < teams.length; j++) {
+                if (characters[i].team_id === teams[j].id && teams[j].name === printChar) {
+                    let teamName = teams[j].name;
+                    characters[i].teamName = teamName;
+                    myCharacters.push(characters[i]);
+                }
+            }
+        }
+    };
 
 
 
-
+    const dataGetter = () => {
 	    Promise.all([loadChar(), loadGender(), loadTeams()])
 	        .then((results) => {
-	            // console.log("results", results);
-	            results.forEach((ajaxCalls) => {
-	                ajaxCalls.forEach((villan) => {
-	                    myCharacters.push(villan);
-	                });
-	            });
-	            console.log("myCharacters", myCharacters);
-	        });
+	            teamChecker(results[0], results[2], printChar);
+                // writeToDom(myCharacters);
+	       })
+            .catch((error) => {
+                console.log("error in Promise All", error);
+            });
+    };
     
-    }); // end of button .hide()
+    // }); // end of button .hide()
 
 
 
