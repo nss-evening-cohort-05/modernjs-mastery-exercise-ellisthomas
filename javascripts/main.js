@@ -16,8 +16,7 @@ $(document).ready(function() {
         // }).catch((error) => {
         //     console.log(myCharacters);
         // });
-        writeToDom(myCharacters);
-        // dataGetter();
+        dataGetter();
     });
 
     const writeToDom = (results) => {
@@ -72,13 +71,13 @@ $(document).ready(function() {
                 if (characters[i].team_id === teams[j].id && teams[j].name === printChar) {
                     let teamName = teams[j].name;
                     characters[i].teamName = teamName;
-                    myCharacters.push(teamN);
+                    myCharacters.push(characters[i].team_id);
                 }
             }
         }
     };
 
-
+    const dataGetter = () => {
     Promise.all([loadChar(), loadGender(), loadTeams()])
             .then((results) => {
                 // console.log("results", results);
@@ -87,9 +86,10 @@ $(document).ready(function() {
                         myCharacters.push(villan);
                     });
                 });
-                 // writeToDom();
+                 writeToDom();
                 console.log("myCharacters", myCharacters);
             });
+    };        
 
     // const dataGetter = () => {
 	   //  Promise.all([loadChar(), loadGender(), loadTeams()])
