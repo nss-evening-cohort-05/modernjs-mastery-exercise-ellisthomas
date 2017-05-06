@@ -16,8 +16,8 @@ $(document).ready(function() {
         // }).catch((error) => {
         //     console.log(myCharacters);
         // });
-        writeToDom();
-        dataGetter();
+        writeToDom(myCharacters);
+        // dataGetter();
     });
 
     const writeToDom = (results) => {
@@ -66,41 +66,44 @@ $(document).ready(function() {
         });
     };
 
-
-    // $("button").click(function(dataGetter) {
-    //     $("#background").hide();
-
-
-
-    // $("button").click((event) => {
-    //     console.log($(event.currentTarget));
-    // });
     const teamChecker = (characters, teams, printChar) => {
         for (let i = 0; i < characters.length; i++) {
             for (let j = 0; j < teams.length; j++) {
                 if (characters[i].team_id === teams[j].id && teams[j].name === printChar) {
                     let teamName = teams[j].name;
                     characters[i].teamName = teamName;
-                    myCharacters.push(characters[i]);
+                    myCharacters.push(teamN);
                 }
             }
         }
     };
 
 
-
-    const dataGetter = () => {
-	    Promise.all([loadChar(), loadGender(), loadTeams()])
-	        .then((results) => {
-	            teamChecker(results[0], results[2], printChar);
-                // writeToDom(myCharacters);
-	       })
-            .catch((error) => {
-                console.log("error in Promise All", error);
+    Promise.all([loadChar(), loadGender(), loadTeams()])
+            .then((results) => {
+                // console.log("results", results);
+                results.forEach((ajaxCalls) => {
+                    ajaxCalls.forEach((villan) => {
+                        myCharacters.push(villan);
+                    });
+                });
+                 // writeToDom();
+                console.log("myCharacters", myCharacters);
             });
-    };
+
+    // const dataGetter = () => {
+	   //  Promise.all([loadChar(), loadGender(), loadTeams()])
+	   //      .then((results) => {
+	   //          teamChecker(results[0], results[2], printChar);
+    //             // writeToDom(myCharacters);
+    //             console.log("myCharacters",myCharacters);
+	   //     })
+    //         .catch((error) => {
+    //             console.log("error in Promise All", error);
+    //         });
+    // };
     
-    // }); // end of button .hide()
+
 
 
 
