@@ -19,6 +19,7 @@ $(document).ready(function() {
         dataGetter();
     });
 
+// add modulous by 4
     const writeToDom = (results) => {
         let domString = "";
         for (let i = 0; i < myCharacters.length; i++) {
