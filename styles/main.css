@@ -1,0 +1,25 @@
+.logo {
+	height: 40px;
+	width: 100px;
+	margin-top: -12px;
+}
+
+body {
+	background-color: slategray;
+}
+
+#background {
+	background-image: url("https://mashfeed.files.wordpress.com/2015/11/spider-man-marvel-logo.jpg?w=723&h=407");
+	background-repeat: no-repeat;
+	background-position: center;
+	height: auto;
+   	left: 0;
+   	margin: auto;
+   	min-height: 100%;
+   	min-width: 674px;
+   	padding: 0;
+   	position: fixed;
+   	top: 0;
+   	width: 100%;
+   	z-index: -1
+}
