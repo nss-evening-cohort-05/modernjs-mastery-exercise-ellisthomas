@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    let myCharacters = [];
+    // let myCharacters = [];
     let printChar = "";
 
 
@@ -16,23 +16,27 @@ $(document).ready(function() {
         // }).catch((error) => {
         //     console.log(myCharacters);
         // });
-        dataGetter();
+        dataGetter(printChar);
     });
 
+<<<<<<< Updated upstream
 // add modulous by 4
     const writeToDom = (results) => {
+=======
+    const writeToDom = (myCharacters, teamName) => {
+>>>>>>> Stashed changes
         let domString = "";
         for (let i = 0; i < myCharacters.length; i++) {
             domString += `<div class="col-md-3">`;
 			domString += `<p class="name">${myCharacters[i].name}</p>`;
-            if (myCharacters[i].gender_id === 0) {
+            if (myCharacters[i].gender_name === "Male") {
                 domString += `<img class="male" src="${myCharacters[i].image}">`;
-            } else if (myCharacters[i].gender_id === 1) {
+            } else if (myCharacters[i].gender_name === "Female") {
                 domString += `<img class="female" src="${myCharacters[i].image}">`;
             }
-            if (myCharacters[i].gender_id === 0 && myCharacters[i].description === "") {
+            if (myCharacters[i].gender_name === "Male" && myCharacters[i].description === "") {
                 domString += `<p class="description">abcde fghij klmno pqrst uvwxy z</p>`;
-            } else if (myCharacters[i].gender_id === 1 && myCharacters[i].description === "") {
+            } else if (myCharacters[i].gender_name === "Female" && myCharacters[i].description === "") {
                 domString += `<p class="f-description">1234567890</p>`;
             }
 			domString += `<p>${myCharacters[i].description}</p>`;
@@ -66,29 +70,48 @@ $(document).ready(function() {
         });
     };
 
-    const teamChecker = (characters, teams, printChar) => {
-        for (let i = 0; i < characters.length; i++) {
-            for (let j = 0; j < teams.length; j++) {
-                if (characters[i].team_id === teams[j].id && teams[j].name === printChar) {
-                    let teamName = teams[j].name;
-                    characters[i].teamName = teamName;
-                    myCharacters.push(characters[i].team_id);
-                }
-            }
-        }
-    };
+    // const teamChecker = (characters, teams, printChar) => {
+    //     for (let i = 0; i < characters.length; i++) {
+    //         for (let j = 0; j < teams.length; j++) {
+    //             if (characters[i].team_id === teams[j].id && teams[j].name === printChar) {
+    //                 let teamName = teams[j].name;
+    //                 characters[i].teamName = teamName;
+    //                 myCharacters.push(characters[i].team_id);
+    //             }
+    //         }
+    //     }
+    // };
 
-    const dataGetter = () => {
+    const dataGetter = (selectedTeam, printChar) => {
     Promise.all([loadChar(), loadGender(), loadTeams()])
             .then((results) => {
-                // console.log("results", results);
-                results.forEach((ajaxCalls) => {
-                    ajaxCalls.forEach((villan) => {
-                        myCharacters.push(villan);
+                console.log("results", results);
+                let characters = results[0];
+                let genders = results[1];
+                let teams = results[2];
+                console.log("teams", teams);
+                characters.forEach((character) => {
+                    teams.forEach((team) => {
+                        genders.forEach((gender) => {
+                            if(character.team_id === team.id){
+                                character.team_name = team.name;
+                            }
+
+                            if(character.gender_id === gender.id){
+                                character.gender_name = gender.type;
+                            }
+
+                            // if(character.gender_id === description.id){
+                            //     character.gender_name === gender.type;
+                            // }
+
+                            //add if statement for missing descriptions
+                        });    
                     });
                 });
-                 writeToDom();
-                console.log("myCharacters", myCharacters);
+                console.log("Characters", characters);
+                writeToDom(characters, selectedTeam);
+                
             });
     };        
 
