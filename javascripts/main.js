@@ -19,12 +19,12 @@ $(document).ready(function() {
         dataGetter(printChar);
     });
 
-<<<<<<< Updated upstream
+
 // add modulous by 4
-    const writeToDom = (results) => {
-=======
+
+
     const writeToDom = (myCharacters, teamName) => {
->>>>>>> Stashed changes
+
         let domString = "";
         for (let i = 0; i < myCharacters.length; i++) {
             domString += `<div class="col-md-3">`;
